@@ -1,0 +1,60 @@
+Module                  Size  Used by
+srio                   13457  0 
+vmw_vsock_vmci_transport    30794  0 
+vsock                  35060  1 vmw_vsock_vmci_transport
+coretemp               13638  0 
+crct10dif_pclmul       14268  0 
+crc32_pclmul           13180  0 
+ghash_clmulni_intel    13230  0 
+aesni_intel           169686  0 
+snd_ens1371            25802  2 
+snd_ac97_codec        135106  1 snd_ens1371
+aes_x86_64             17131  1 aesni_intel
+lrw                    13323  1 aesni_intel
+ac97_bus               12730  1 snd_ac97_codec
+gameport               20159  1 snd_ens1371
+gf128mul               14951  1 lrw
+glue_helper            14095  1 aesni_intel
+vmw_balloon            13593  0 
+ablk_helper            13597  1 aesni_intel
+snd_pcm               106401  2 snd_ac97_codec,snd_ens1371
+cryptd                 20531  3 ghash_clmulni_intel,aesni_intel,ablk_helper
+snd_seq_midi           13564  0 
+snd_seq_midi_event     14899  1 snd_seq_midi
+snd_rawmidi            31148  2 snd_ens1371,snd_seq_midi
+serio_raw              13434  0 
+snd_seq                63540  2 snd_seq_midi_event,snd_seq_midi
+vmwgfx                182129  2 
+snd_seq_device         14875  3 snd_seq,snd_rawmidi,snd_seq_midi
+snd_timer              30069  2 snd_pcm,snd_seq
+ttm                    98502  1 vmwgfx
+drm_kms_helper        123797  1 vmwgfx
+snd                    83976  11 snd_ac97_codec,snd_timer,snd_pcm,snd_seq,snd_rawmidi,snd_ens1371,snd_seq_device
+drm                   341532  5 ttm,drm_kms_helper,vmwgfx
+soundcore              15091  1 snd
+shpchp                 37216  0 
+vmw_vmci               68486  1 vmw_vsock_vmci_transport
+i2c_piix4              22311  0 
+bnep                   23980  2 
+rfcomm                 75100  0 
+bluetooth             510212  10 bnep,rfcomm
+8250_fintek            12924  0 
+parport_pc             32909  0 
+mac_hid                13275  0 
+ppdev                  17711  0 
+lp                     17799  0 
+parport                42432  3 lp,ppdev,parport_pc
+hid_generic            12559  0 
+usbhid                 53106  0 
+hid                   110883  2 hid_generic,usbhid
+psmouse               118382  0 
+mptspi                 22908  2 
+mptscsih               44752  1 mptspi
+mptbase               103163  2 mptspi,mptscsih
+ahci                   34220  0 
+libahci                32353  1 ahci
+e1000                 140082  0 
+scsi_transport_spi     31072  1 mptspi
+pata_acpi              13053  0 
+vmw_pvscsi             23674  0 
+vmxnet3                50628  0 

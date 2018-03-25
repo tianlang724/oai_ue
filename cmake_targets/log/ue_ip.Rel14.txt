@@ -1,0 +1,6 @@
+/home/liu/openairinterface5g/openair2/NETWORK_DRIVER/UE_IP/netlink.c
+/home/liu/openairinterface5g/openair2/NETWORK_DRIVER/UE_IP/common.c: In function ‘ue_ip_common_ip2wireless’:
+/home/liu/openairinterface5g/openair2/NETWORK_DRIVER/UE_IP/common.c:308:5: warning: "OAI_DRV_DEBUG_SEND" is not defined [-Wundef]
+ #if OAI_DRV_DEBUG_SEND
+     ^
+Built target ue_ip
