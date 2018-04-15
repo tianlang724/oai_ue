@@ -362,8 +362,6 @@ mac_rrc_data_ind(
 
 #if defined(ENABLE_ITTI)
       {
-		printf("[mac_rrc_data_ind] defined ENABLE_ITTI");
-		fflush(stdout);
         MessageDef *message_p;
         int msg_sdu_size = sizeof(RRC_MAC_BCCH_DATA_IND (message_p).sdu);
 
@@ -384,6 +382,7 @@ mac_rrc_data_ind(
         RRC_MAC_BCCH_DATA_IND (message_p).rsrq      = 30 /* TODO change phy to report rspq */;
         RRC_MAC_BCCH_DATA_IND (message_p).rsrp      = 45 /* TODO change phy to report rspp */;
 
+		printf("[mac_rrc_data_ind] send task_rrc_ue rrc_mac_bcch_data_ind");
         itti_send_msg_to_task (TASK_RRC_UE, ctxt.instance, message_p);
       }
 #else

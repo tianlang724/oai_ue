@@ -88,6 +88,8 @@ unsigned char pdcp_read_state_g = 0;
 extern Packet_OTG_List_t *otg_pdcp_buffer;
 //zh add 20180324
 #define PDCP_DEBUG
+int num_sendto_oip=0;
+int num_recvfrom_oip=0;
 
 #if defined(LINK_ENB_PDCP_TO_GTPV1U)
 #  include "gtpv1u_eNB_task.h"
@@ -118,7 +120,6 @@ int pdcp_fifo_flush_sdus(const protocol_ctxt_t* const  ctxt_pP)
 //#if defined(PDCP_USE_NETLINK) && defined(LINUX)
   int ret = 0;
 //#endif
-
 #ifdef DEBUG_PDCP_FIFO_FLUSH_SDU
 #define THREAD_NAME_LEN 16
   static char threadname[THREAD_NAME_LEN];
@@ -248,7 +249,12 @@ int pdcp_fifo_flush_sdus(const protocol_ctxt_t* const  ctxt_pP)
           nas_nlh_tx->nlmsg_len += pdcp_output_sdu_bytes_to_write;
           VCD_SIGNAL_DUMPER_DUMP_VARIABLE_BY_NAME( VCD_SIGNAL_DUMPER_VARIABLES_UE_PDCP_FLUSH_SIZE, pdcp_output_sdu_bytes_to_write);
           VCD_SIGNAL_DUMPER_DUMP_FUNCTION_BY_NAME( VCD_SIGNAL_DUMPER_FUNCTIONS_PDCP_FIFO_FLUSH_BUFFER, 1 );
-          ret = sendmsg(nas_sock_fd,&nas_msg_tx,0);
+		  printf("[pdcp_fifo_flush_sdus]send to pdcp netlink\n");
+		  for(int q=0;q<pdcp_output_sdu_bytes_to_write;q++){
+				  printf("%x ",sdu_p->data[sizeof (pdcp_data_ind_header_t)+q]);
+		  }
+		  printf("\n");
+		  ret = sendmsg(nas_sock_fd,&nas_msg_tx,0);
           VCD_SIGNAL_DUMPER_DUMP_FUNCTION_BY_NAME( VCD_SIGNAL_DUMPER_FUNCTIONS_PDCP_FIFO_FLUSH_BUFFER, 0 );
           VCD_SIGNAL_DUMPER_DUMP_VARIABLE_BY_NAME( VCD_SIGNAL_DUMPER_VARIABLES_UE_PDCP_FLUSH_ERR, ret );
 
@@ -266,6 +272,10 @@ int pdcp_fifo_flush_sdus(const protocol_ctxt_t* const  ctxt_pP)
            mac_xface->macphy_exit("sendmsg failed for nas_sock_fd\n");
             break;
           } else {
+				  //zh add 20189414
+              num_sendto_oip++;
+			  printf("[pdcp_fifo_flush_sdus]sendto oip %d",num_sendto_oip);
+
         	  MSC_LOG_TX_MESSAGE(
         	    (ctxt_pP->enb_flag == ENB_FLAG_YES) ? MSC_PDCP_ENB:MSC_PDCP_UE,
         	    (ctxt_pP->enb_flag == ENB_FLAG_YES) ? MSC_IP_ENB:MSC_IP_UE,
@@ -449,6 +459,7 @@ int pdcp_fifo_read_input_sdus (const protocol_ctxt_t* const  ctxt_pP)
 #else // OAI_NW_DRIVER_TYPE_ETHERNET NASMESH driver does not curreenlty support multicast traffic
         pdcp_mode = PDCP_TRANSMISSION_MODE_DATA;
 #endif
+	  //printf("[pdcp_fifo_read_input_sdus] call pdcp_data_req\n");
       pdcp_data_req(&ctxt_cpy,
                       SRB_FLAG_NO,
                       rab_id % maxDRB,
@@ -512,8 +523,8 @@ int pdcp_fifo_read_input_sdus (const protocol_ctxt_t* const  ctxt_pP)
     VCD_SIGNAL_DUMPER_DUMP_FUNCTION_BY_NAME( VCD_SIGNAL_DUMPER_FUNCTIONS_PDCP_FIFO_READ, 1 );
     VCD_SIGNAL_DUMPER_DUMP_FUNCTION_BY_NAME( VCD_SIGNAL_DUMPER_FUNCTIONS_PDCP_FIFO_READ_BUFFER, 1 );
 	len = recvmsg(nas_sock_fd, &nas_msg_rx, 0);
-    printf("[pdcp_fifo_read_input_sdus]zh recv_msg ,sock=%d,len=%d,errno=%d\n",nas_sock_fd,len,errno);
-	fflush(stdout);
+    //printf("[pdcp_fifo_read_input_sdus]zh recv_msg ,sock=%d,len=%d,errno=%d\n",nas_sock_fd,len,errno);
+	//fflush(stdout);
     VCD_SIGNAL_DUMPER_DUMP_FUNCTION_BY_NAME( VCD_SIGNAL_DUMPER_FUNCTIONS_PDCP_FIFO_READ_BUFFER, 0 );
 
     if (len<=0) {
@@ -527,20 +538,29 @@ int pdcp_fifo_read_input_sdus (const protocol_ctxt_t* const  ctxt_pP)
            nas_nlh_rx = NLMSG_NEXT (nas_nlh_rx, msg_len)) {
 
         if (nas_nlh_rx->nlmsg_type == NLMSG_DONE) {
-          LOG_D(PDCP, "[PDCP][NETLINK] RX NLMSG_DONE\n");
+          LOG_I(PDCP, "[PDCP][NETLINK] RX NLMSG_DONE\n");
           //return;
         }
 
         if (nas_nlh_rx->nlmsg_type == NLMSG_ERROR) {
-          LOG_D(PDCP, "[PDCP][NETLINK] RX NLMSG_ERROR\n");
+          LOG_I(PDCP, "[PDCP][NETLINK] RX NLMSG_ERROR\n");
         }
 
         if (pdcp_read_state_g == 0) {
           if (nas_nlh_rx->nlmsg_len == sizeof (pdcp_data_req_header_t) + sizeof(struct nlmsghdr)) {
             pdcp_read_state_g = 1;  //get
             memcpy((void *)&pdcp_read_header_g, (void *)NLMSG_DATA(nas_nlh_rx), sizeof(pdcp_data_req_header_t));
-            LOG_D(PDCP, "[PDCP][NETLINK] RX pdcp_data_req_header_t inst %u, rb_id %u data_size %d\n",
+            LOG_I(PDCP, "[PDCP][NETLINK] RX pdcp_data_req_header_t inst %u, rb_id %u data_size %d\n",
                   pdcp_read_header_g.inst, pdcp_read_header_g.rb_id, pdcp_read_header_g.data_size);
+        /*    char buff[100];
+			memcpy(&buff,NLMSG_DATA(nas_nlh_rx),pdcp_read_header_g.data_size);
+			for(int k=0;k<pdcp_read_header_g.data_size;k++){
+					printf("%x ",buff[0+k]);
+			}
+			printf("\n"); */
+			//zh add 20180414
+			num_recvfrom_oip++;
+    		printf("[pdcp_fifo_read_input_sdus]zh num_recvfrom_oip %d\n",num_recvfrom_oip);
           } else {
             LOG_E(PDCP, "[PDCP][NETLINK] WRONG size %d should be sizeof (pdcp_data_req_header_t) + sizeof(struct nlmsghdr)\n",
                   nas_nlh_rx->nlmsg_len);
@@ -549,7 +569,7 @@ int pdcp_fifo_read_input_sdus (const protocol_ctxt_t* const  ctxt_pP)
           pdcp_read_state_g = 0;
           // print_active_requests()
 #ifdef PDCP_DEBUG
-          LOG_D(PDCP, "[PDCP][NETLINK] Something in socket, length %zu\n",
+          LOG_I(PDCP, "[PDCP][NETLINK] Something in socket, length %zu\n",
                 nas_nlh_rx->nlmsg_len - sizeof(struct nlmsghdr));
 #endif
 
@@ -626,7 +646,7 @@ int pdcp_fifo_read_input_sdus (const protocol_ctxt_t* const  ctxt_pP)
           	      pdcp_read_header_g.rb_id,
           	      rab_id,
           	      pdcp_read_header_g.data_size);
-                LOG_D(PDCP, "[FRAME %5u][eNB][IP][INSTANCE %u][RB %u][--- PDCP_DATA_REQ / %d Bytes --->][PDCP][MOD %u]UE %u][RB %u]\n",
+                LOG_I(PDCP, "[FRAME %5u][eNB][IP][INSTANCE %u][RB %u][--- PDCP_DATA_REQ / %d Bytes --->][PDCP][MOD %u]UE %u][RB %u]\n",
                       ctxt_cpy.frame,
                       pdcp_read_header_g.inst,
                       pdcp_read_header_g.rb_id,
@@ -644,7 +664,7 @@ int pdcp_fifo_read_input_sdus (const protocol_ctxt_t* const  ctxt_pP)
                               (unsigned char *)NLMSG_DATA(nas_nlh_rx),
                               PDCP_TRANSMISSION_MODE_DATA);
               } else {
-                LOG_D(PDCP, "[FRAME %5u][eNB][IP][INSTANCE %u][RB %u][--- PDCP_DATA_REQ / %d Bytes ---X][PDCP][MOD %u][UE %u][RB %u] NON INSTANCIATED INSTANCE, DROPPED\n",
+                LOG_I(PDCP, "[FRAME %5u][eNB][IP][INSTANCE %u][RB %u][--- PDCP_DATA_REQ / %d Bytes ---X][PDCP][MOD %u][UE %u][RB %u] NON INSTANCIATED INSTANCE, DROPPED\n",
                       ctxt.frame,
                       pdcp_read_header_g.inst,
                       pdcp_read_header_g.rb_id,

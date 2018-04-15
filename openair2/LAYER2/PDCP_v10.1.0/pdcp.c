@@ -1006,7 +1006,7 @@ pdcp_run (
   else {
     start_meas(&UE_pdcp_stats[ctxt_pP->module_id].pdcp_ip);
   }
-
+  //printf("[pdcp_run] call pdcp_fifo_flush_sdus\n");
   pdcp_fifo_flush_sdus(ctxt_pP);
 
   if (ctxt_pP->enb_flag) {
