@@ -69,15 +69,9 @@ Scanning dependencies of target SCHED_LIB
   int subframe_rx = proc->subframe_rx;
       ^
 /home/liu/openairinterface5g/openair1/SCHED/phy_procedures_lte_ue.c: In function ‘ue_dlsch_procedures_zh’:
-/home/liu/openairinterface5g/openair1/SCHED/phy_procedures_lte_ue.c:3331:6: warning: format ‘%d’ expects argument of type ‘int’, but argument 3 has type ‘long unsigned int’ [-Wformat=]
-      printf("[ue_dlsch_procedures_zh] pdschd_offset=%d,si_data_offset=%d\n",pdschd_offset,pdschd_offset+sizeof(ENB_DL_TYPE1_PDSCH_D));
-      ^
 /home/liu/openairinterface5g/openair1/SCHED/phy_procedures_lte_ue.c:3357:5: warning: implicit declaration of function ‘process_rar_zh’ [-Wimplicit-function-declaration]
      process_rar_zh(ue,proc,eNB_id,mode,abstraction_flag);
      ^
-/home/liu/openairinterface5g/openair1/SCHED/phy_procedures_lte_ue.c:3316:14: warning: unused variable ‘data’ [-Wunused-variable]
-     uint8_t* data=(uint8_t*)((void*)pdschd+sizeof(ENB_DL_TYPE1_PDSCH_D));
-              ^
 /home/liu/openairinterface5g/openair1/SCHED/phy_procedures_lte_ue.c: At top level:
 /home/liu/openairinterface5g/openair1/SCHED/phy_procedures_lte_ue.c:4004:6: warning: conflicting types for ‘process_rar_zh’ [enabled by default]
  void process_rar_zh(PHY_VARS_UE *ue, UE_rxtx_proc_t *proc, int eNB_id, runmode_t mode, int abstraction_flag) {
@@ -98,7 +92,7 @@ Scanning dependencies of target SCHED_LIB
  }
  ^
 /home/liu/openairinterface5g/openair1/SCHED/phy_procedures_lte_ue.c: In function ‘phy_procedures_UE_RX_zh’:
-/home/liu/openairinterface5g/openair1/SCHED/phy_procedures_lte_ue.c:4651:1: warning: control reaches end of non-void function [-Wreturn-type]
+/home/liu/openairinterface5g/openair1/SCHED/phy_procedures_lte_ue.c:4655:1: warning: control reaches end of non-void function [-Wreturn-type]
  }
  ^
 [ 84%] Building C object CMakeFiles/SCHED_LIB.dir/home/liu/openairinterface5g/openair1/SCHED/phy_procedures_lte_common.c.o
@@ -324,7 +318,7 @@ In file included from /home/liu/openairinterface5g/targets/RT/USER/lte-softmodem
      int dummy_rx[UE->frame_parms.nb_antennas_rx][UE->frame_parms.samples_per_tti] __attribute__((aligned(32)));
          ^
 /home/liu/openairinterface5g/targets/RT/USER/lte-ue.c: In function ‘UE_thread_old’:
-/home/liu/openairinterface5g/targets/RT/USER/lte-ue.c:828:5: warning: passing argument 3 of ‘openair0_transport_load’ from incompatible pointer type [enabled by default]
+/home/liu/openairinterface5g/targets/RT/USER/lte-ue.c:829:5: warning: passing argument 3 of ‘openair0_transport_load’ from incompatible pointer type [enabled by default]
      int ret=openair0_transport_load(&(UE->rfdevice),&openair0_cfg[0],"");
      ^
 In file included from /home/liu/openairinterface5g/targets/RT/USER/lte-softmodem.h:26:0,

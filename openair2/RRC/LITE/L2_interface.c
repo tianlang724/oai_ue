@@ -382,7 +382,7 @@ mac_rrc_data_ind(
         RRC_MAC_BCCH_DATA_IND (message_p).rsrq      = 30 /* TODO change phy to report rspq */;
         RRC_MAC_BCCH_DATA_IND (message_p).rsrp      = 45 /* TODO change phy to report rspp */;
 
-		printf("[mac_rrc_data_ind] send task_rrc_ue rrc_mac_bcch_data_ind");
+		printf("[mac_rrc_data_ind] send task_rrc_ue rrc_mac_bcch_data_ind\n");
         itti_send_msg_to_task (TASK_RRC_UE, ctxt.instance, message_p);
       }
 #else

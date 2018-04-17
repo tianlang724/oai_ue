@@ -2445,7 +2445,7 @@ void phy_procedures_UE_TX(PHY_VARS_UE *ue,UE_rxtx_proc_t *proc,uint8_t eNB_id,ui
   unsigned int aa;
   uint8_t isSubframeSRS;
   //zh add init tx_buff 20180109
-  memset(ue->common_vars.tx_buff[0],0,sizeof(int32_t)*1000);
+  memset(ue->common_vars.tx_buff[0],0,sizeof(int32_t)*ZH_TXBUFF_SIZE);
   VCD_SIGNAL_DUMPER_DUMP_FUNCTION_BY_NAME(VCD_SIGNAL_DUMPER_FUNCTIONS_PHY_PROCEDURES_UE_TX,VCD_FUNCTION_IN);
 
 #if T_TRACER
@@ -2503,7 +2503,7 @@ void phy_procedures_UE_TX(PHY_VARS_UE *ue,UE_rxtx_proc_t *proc,uint8_t eNB_id,ui
     LOG_D(PHY,"[UE %d] Frame %d, subframe %d: CBA num dci %d\n",
 	  Mod_id,frame_tx,subframe_tx,
 	  ue->ulsch[eNB_id]->num_cba_dci[subframe_tx]);
-	  
+	printf("[phy_procedures_UE_TX] call ue_get_sdu,datalen=%d,harq=%d\n",input_buffer_length,harq_pid);  
     mac_xface->ue_get_sdu(Mod_id,
 			  CC_id,
 			  frame_tx,
@@ -3291,8 +3291,8 @@ int ue_pdcch_procedures_zh(uint8_t eNB_id,PHY_VARS_UE *ue,UE_rxtx_proc_t *proc,u
 }
 
 void ue_dlsch_procedures_zh(PHY_VARS_UE *ue,UE_rxtx_proc_t *proc,int eNB_id,PDSCH_t pdsch, runmode_t mode, int abstraction_flag,uint16_t pdschd_offset) {
-	printf("[ue_dlsch_procedures_zh] enter\n");
-	fflush(stdout);
+	//printf("[ue_dlsch_procedures_zh] enter\n");
+	//fflush(stdout);
 	int frame_rx = proc->frame_rx;
 	int subframe_rx = proc->subframe_rx;
 	int CC_id = ue->CC_id;
@@ -3314,10 +3314,10 @@ void ue_dlsch_procedures_zh(PHY_VARS_UE *ue,UE_rxtx_proc_t *proc,int eNB_id,PDSC
 				pdschd=(ENB_DL_TYPE1_PDSCH_D*)((void*)ue->common_vars.rx_buff[0]+pdschd_offset);
 	 			int len=ntohs(pdschd->PdschData);
 				uint8_t* data=(uint8_t*)((void*)pdschd+sizeof(ENB_DL_TYPE1_PDSCH_D));
-			/*	for(int i=0;i<len;i++){
+				for(int i=0;i<len;i++){
 						printf("%x ",data[i]);
 				}
-				printf("\n");*/
+				printf("\n");
 				mac_xface->ue_send_sdu(ue->Mod_id,
 								CC_id,
 								frame_rx,
@@ -3328,13 +3328,13 @@ void ue_dlsch_procedures_zh(PHY_VARS_UE *ue,UE_rxtx_proc_t *proc,int eNB_id,PDSC
 				printf("[ue_dlsch_procedures_zh] pdsch offset=%d,data_len=%d\n",pdschd_offset,len);
 				break;
 		case SI_PDSCH:	
-				 printf("[ue_dlsch_procedures_zh] pdschd_offset=%d,si_data_offset=%d\n",pdschd_offset,pdschd_offset+sizeof(ENB_DL_TYPE1_PDSCH_D));
+				 //printf("[ue_dlsch_procedures_zh] pdschd_offset=%d,si_data_offset=%d\n",pdschd_offset,pdschd_offset+sizeof(ENB_DL_TYPE1_PDSCH_D));
 				 pdschd=(ENB_DL_TYPE1_PDSCH_D*)((void*)ue->common_vars.rx_buff[0]+pdschd_offset);
 				 if(ntohs(pdschd->RNTI)==SI_RNTI){
-						 printf("[ue_dlsch_procedures_zh] si pdschd\n");
-						 fflush(stdout);
-				 int len=ntohs(pdschd->PdschData);
-				 printf("[ue_dlsch_procedures_zh] si len=%d\n",len);
+				 	//printf("[ue_dlsch_procedures_zh] si pdschd\n");
+					//fflush(stdout);
+				 	int len=ntohs(pdschd->PdschData);
+				 	printf("[ue_dlsch_procedures_zh] si len=%d\n",len);
 				//test si_data 20171129
 				// uint8_t *si_data=(uint8_t*)((void*)ue->common_vars.rx_buff[0]+pdschd_offset+sizeof(ENB_DL_TYPE1_PDSCH_D));
 				// for(int i=0;i<len;i++){	 
@@ -4589,7 +4589,6 @@ int phy_procedures_UE_RX_zh(PHY_VARS_UE *ue,UE_rxtx_proc_t *proc,uint8_t eNB_id,
     ue->dlsch_ra[eNB_id]->active = 0;
  }  
     OPENAIR_TO_SRIO_DL *header=(OPENAIR_TO_SRIO_DL*)ue->common_vars.rx_buff[0];
-	printf("[ue_dlsch_procedures_zh] dsp_len=%d\n",ntohs(header->dsp_length));
 	uint16_t dsp_offset=ntohs(header->dsp_offset);
 	uint16_t dsp_length=ntohs(header->dsp_length);
 	uint16_t pdschd_offset=dsp_offset+sizeof(ENBPHYADPtoPHYType1)+
@@ -4601,19 +4600,23 @@ int phy_procedures_UE_RX_zh(PHY_VARS_UE *ue,UE_rxtx_proc_t *proc,uint8_t eNB_id,
 			5*sizeof(ENB_DL_TYPE1_PDCCH_D)+
 			5*sizeof(ENB_DL_TYPE1_PDSCH_C);
    ENB_DL_TYPE1_PDSCH_D* pdschd;
+   printf("[ue_dlsch_procedures_zh] pdschd_offset=%d,dsp_len=%d\n",pdschd_offset,dsp_length);
    while(pdschd_offset<dsp_length){
-		pdschd=(ENB_DL_TYPE1_PDSCH_D*)((void*)ue->common_vars.rx_buff[0]+sizeof(pdschd_offset));
-    if ((ue->dlsch_SI[eNB_id]) && (ue->dlsch_SI[eNB_id]->active == 1)) {
+		pdschd=(ENB_DL_TYPE1_PDSCH_D*)((void*)ue->common_vars.rx_buff[0]+pdschd_offset);
+        if ((ue->dlsch_SI[eNB_id]) && (ue->dlsch_SI[eNB_id]->active == 1)) {
 			ue_dlsch_procedures_zh(ue,
-			proc,
-			eNB_id,
-			SI_PDSCH,
-			mode,
-			abstraction_flag,
-		    pdschd_offset);
-    ue->dlsch_SI[eNB_id]->active = 0;
+				proc,
+				eNB_id,
+				SI_PDSCH,
+				mode,
+				abstraction_flag,
+		    	pdschd_offset);
+        	ue->dlsch_SI[eNB_id]->active = 0;
+            printf("[ue_dlsch_procedures_zh] call si dlsch\n");
     }
-    if ((ue->dlsch_p[eNB_id]) && (ue->dlsch_p[eNB_id]->active == 1)) {
+	else if ((ue->dlsch_p[eNB_id]) && (ue->dlsch_p[eNB_id]->active == 1)) {
+
+            printf("[ue_dlsch_procedures_zh] call dlsch_p\n");
 	    ue_dlsch_procedures_zh(ue,
 			proc,
 			eNB_id,
@@ -4635,7 +4638,7 @@ int phy_procedures_UE_RX_zh(PHY_VARS_UE *ue,UE_rxtx_proc_t *proc,uint8_t eNB_id,
 			pdschd_offset);
     ue->dlsch_ra[eNB_id]->active = 0;
 	}*/
-  if (ue->dlsch[subframe_rx&0x1][eNB_id][0]->active == 1) {
+	else if (ue->dlsch[subframe_rx&0x1][eNB_id][0]->active == 1) {
 	 printf("[phy_procedures_UE_RX]zh ue_dlsch_procedures_zh will process normal,pdschd_offset=%d\n",pdschd_offset);
 		    ue_dlsch_procedures_zh(ue,
 							proc,
@@ -4645,8 +4648,9 @@ int phy_procedures_UE_RX_zh(PHY_VARS_UE *ue,UE_rxtx_proc_t *proc,uint8_t eNB_id,
 							abstraction_flag,
 							pdschd_offset);
 	}
-    
-  pdschd_offset+=ntohs(pdschd->PdschData)+sizeof(ENB_DL_TYPE1_PDSCH_D);
+         
+      pdschd_offset+=ntohs(pdschd->PdschData)+sizeof(ENB_DL_TYPE1_PDSCH_D);
+      printf("[ue_dlsch_procedures_zh] end datalen=%d,pdschd_offset=%d\n",ntohs(pdschd->PdschData),pdschd_offset);
    }
 }
 

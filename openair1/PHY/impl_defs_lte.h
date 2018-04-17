@@ -1018,7 +1018,8 @@ typedef struct OPENAIR_TO_SRIO_UP
 		uint16_t dsp_offset;
 		uint16_t dsp_length;
 }OPENAIR_TO_SRIO_UP;
-
+#define ZH_TXBUFF_SIZE 1500
+#define ZH_RXBUFF_SIZE 1500
 typedef struct {
   ///zh add tx_buff,rx_buff 20171010 
   int32_t **tx_buff;

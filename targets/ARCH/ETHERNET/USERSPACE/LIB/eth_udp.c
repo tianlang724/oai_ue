@@ -116,7 +116,7 @@ int trx_eth_write_udp(openair0_device *device, openair0_timestamp timestamp, voi
 	nlh_tx->nlmsg_seq=0;
 	nlh_tx->nlmsg_pid=100;/*self pid*/
 	nlh_tx->nlmsg_flags=1;
-	memcpy(NLMSG_DATA(nlh_tx),buff[0],100);
+	memcpy(NLMSG_DATA(nlh_tx),buff[0],500);
 	iov_tx.iov_base=(void *)nlh_tx;
 	iov_tx.iov_len=nlh_tx->nlmsg_len;
 	memset(&msg_tx,0,sizeof(msg_tx));

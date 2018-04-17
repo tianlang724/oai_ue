@@ -733,6 +733,7 @@ void *UE_thread(void *arg) {
                 sub_frame%=10;
                 UE_rxtx_proc_t *proc = &UE->proc.proc_rxtx[sub_frame&1];
                 if (UE->mode != loop_through_memory) {
+					memset(UE->common_vars.rx_buff[0],0,ZH_RXBUFF_SIZE*sizeof(int32_t));
                     int ret=UE->rfdevice.trx_read_func(&UE->rfdevice,
                                                             &timestamp,
                                                             (void**)UE->common_vars.rx_buff,
@@ -1159,7 +1160,7 @@ int setup_ue_buffers(PHY_VARS_UE **phy_vars_ue, openair0_config_t *openair0_cfg)
             rxdata[i] = (int32_t*)malloc16_clear( 307200*sizeof(int32_t) );
             phy_vars_ue[CC_id]->common_vars.rxdata[i] = rxdata[i]; // what about the "-N_TA_offset" ? // N_TA offset for TDD
 			//zh add 20171010
-			phy_vars_ue[CC_id]->common_vars.rx_buff[i]=(int32_t*)malloc16_clear(1500*sizeof(int32_t));
+			phy_vars_ue[CC_id]->common_vars.rx_buff[i]=(int32_t*)malloc16_clear(ZH_RXBUFF_SIZE*sizeof(int32_t));
         }
 
         for (i=0; i<frame_parms->nb_antennas_tx; i++) {
@@ -1169,7 +1170,7 @@ int setup_ue_buffers(PHY_VARS_UE **phy_vars_ue, openair0_config_t *openair0_cfg)
             txdata[i] = (int32_t*)malloc16_clear( 307200*sizeof(int32_t) );
             phy_vars_ue[CC_id]->common_vars.txdata[i] = txdata[i];
 			//zh add 20171010
-			phy_vars_ue[CC_id]->common_vars.tx_buff[i]=(int32_t*)malloc16_clear(1500*sizeof(int32_t));
+			phy_vars_ue[CC_id]->common_vars.tx_buff[i]=(int32_t*)malloc16_clear(ZH_TXBUFF_SIZE*sizeof(int32_t));
         }
 
         // rxdata[x] points now to the same memory region as phy_vars_ue[CC_id]->common_vars.rxdata[x]
