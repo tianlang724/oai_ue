@@ -43,7 +43,7 @@
 #include "LAYER2/MAC/extern.h"
 #include "LAYER2/MAC/defs.h"
 
-//#define DEBUG_DCI
+#define DEBUG_DCI
 
 uint32_t localRIV2alloc_LUT6[32];
 uint32_t distRIV2alloc_even_LUT6[32];
@@ -8109,7 +8109,7 @@ int generate_ue_ulsch_params_from_dci(void *dci_pdu,
     printf("Format 0 DCI :ulsch (ue): first_tx       %d\n",ulsch->harq_processes[harq_pid]->first_tx);
     printf("Format 0 DCI :ulsch (ue): DCINdi       %d\n",ulsch->harq_processes[harq_pid]->DCINdi);
     printf("Format 0 DCI :ulsch (ue): round       %d\n",ulsch->harq_processes[harq_pid]->round);
-    //printf("Format 0 DCI :ulsch (ue): TBS         %d\n",ulsch->harq_processes[harq_pid]->TBS);
+    printf("Format 0 DCI :ulsch (ue): TBS         %d\n",ulsch->harq_processes[harq_pid]->TBS);
     printf("Format 0 DCI :ulsch (ue): mcs         %d\n",ulsch->harq_processes[harq_pid]->mcs);
     //printf("Format 0 DCI :ulsch (ue): O           %d\n",ulsch->O);
     //printf("Format 0 DCI :ulsch (ue): cqiReq      %d\n",cqi_req);

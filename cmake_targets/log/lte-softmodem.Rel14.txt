@@ -65,34 +65,37 @@ Scanning dependencies of target SCHED_LIB
    int prach_power;
        ^
 /home/liu/openairinterface5g/openair1/SCHED/phy_procedures_lte_ue.c: In function ‘ue_pbch_procedures_zh’:
-/home/liu/openairinterface5g/openair1/SCHED/phy_procedures_lte_ue.c:3086:6: warning: unused variable ‘subframe_rx’ [-Wunused-variable]
+/home/liu/openairinterface5g/openair1/SCHED/phy_procedures_lte_ue.c:3087:6: warning: unused variable ‘subframe_rx’ [-Wunused-variable]
   int subframe_rx = proc->subframe_rx;
       ^
 /home/liu/openairinterface5g/openair1/SCHED/phy_procedures_lte_ue.c: In function ‘ue_dlsch_procedures_zh’:
-/home/liu/openairinterface5g/openair1/SCHED/phy_procedures_lte_ue.c:3357:5: warning: implicit declaration of function ‘process_rar_zh’ [-Wimplicit-function-declaration]
+/home/liu/openairinterface5g/openair1/SCHED/phy_procedures_lte_ue.c:3363:5: warning: implicit declaration of function ‘process_rar_zh’ [-Wimplicit-function-declaration]
      process_rar_zh(ue,proc,eNB_id,mode,abstraction_flag);
      ^
+/home/liu/openairinterface5g/openair1/SCHED/phy_procedures_lte_ue.c:3323:14: warning: unused variable ‘data’ [-Wunused-variable]
+     uint8_t* data=(uint8_t*)((void*)pdschd+sizeof(ENB_DL_TYPE1_PDSCH_D));
+              ^
 /home/liu/openairinterface5g/openair1/SCHED/phy_procedures_lte_ue.c: At top level:
-/home/liu/openairinterface5g/openair1/SCHED/phy_procedures_lte_ue.c:4004:6: warning: conflicting types for ‘process_rar_zh’ [enabled by default]
+/home/liu/openairinterface5g/openair1/SCHED/phy_procedures_lte_ue.c:4010:6: warning: conflicting types for ‘process_rar_zh’ [enabled by default]
  void process_rar_zh(PHY_VARS_UE *ue, UE_rxtx_proc_t *proc, int eNB_id, runmode_t mode, int abstraction_flag) {
       ^
-/home/liu/openairinterface5g/openair1/SCHED/phy_procedures_lte_ue.c:3357:5: note: previous implicit declaration of ‘process_rar_zh’ was here
+/home/liu/openairinterface5g/openair1/SCHED/phy_procedures_lte_ue.c:3363:5: note: previous implicit declaration of ‘process_rar_zh’ was here
      process_rar_zh(ue,proc,eNB_id,mode,abstraction_flag);
      ^
 /home/liu/openairinterface5g/openair1/SCHED/phy_procedures_lte_ue.c: In function ‘process_rar_zh’:
-/home/liu/openairinterface5g/openair1/SCHED/phy_procedures_lte_ue.c:4009:30: warning: unused variable ‘dspheader’ [-Wunused-variable]
+/home/liu/openairinterface5g/openair1/SCHED/phy_procedures_lte_ue.c:4015:30: warning: unused variable ‘dspheader’ [-Wunused-variable]
   struct ENBPHYADPtoPHYType1 *dspheader=(ENBPHYADPtoPHYType1*)((void*)ue->common_vars.rx_buff[0]+ntohs(header->dsp_offset));
                               ^
 /home/liu/openairinterface5g/openair1/SCHED/phy_procedures_lte_ue.c: In function ‘phy_procedures_UE_RX_zh’:
-/home/liu/openairinterface5g/openair1/SCHED/phy_procedures_lte_ue.c:4558:7: warning: unused variable ‘frame_rx’ [-Wunused-variable]
+/home/liu/openairinterface5g/openair1/SCHED/phy_procedures_lte_ue.c:4564:7: warning: unused variable ‘frame_rx’ [-Wunused-variable]
    int frame_rx = proc->frame_rx;
        ^
 /home/liu/openairinterface5g/openair1/SCHED/phy_procedures_lte_ue.c: In function ‘ue_pdcch_procedures_zh’:
-/home/liu/openairinterface5g/openair1/SCHED/phy_procedures_lte_ue.c:3291:1: warning: control reaches end of non-void function [-Wreturn-type]
+/home/liu/openairinterface5g/openair1/SCHED/phy_procedures_lte_ue.c:3298:1: warning: control reaches end of non-void function [-Wreturn-type]
  }
  ^
 /home/liu/openairinterface5g/openair1/SCHED/phy_procedures_lte_ue.c: In function ‘phy_procedures_UE_RX_zh’:
-/home/liu/openairinterface5g/openair1/SCHED/phy_procedures_lte_ue.c:4655:1: warning: control reaches end of non-void function [-Wreturn-type]
+/home/liu/openairinterface5g/openair1/SCHED/phy_procedures_lte_ue.c:4661:1: warning: control reaches end of non-void function [-Wreturn-type]
  }
  ^
 [ 84%] Building C object CMakeFiles/SCHED_LIB.dir/home/liu/openairinterface5g/openair1/SCHED/phy_procedures_lte_common.c.o
@@ -115,6 +118,17 @@ Scanning dependencies of target PHY
 [ 84%] Building C object CMakeFiles/PHY.dir/home/liu/openairinterface5g/openair1/PHY/LTE_TRANSPORT/dlsch_decoding.c.o
 [ 84%] Building C object CMakeFiles/PHY.dir/home/liu/openairinterface5g/openair1/PHY/LTE_TRANSPORT/dlsch_scrambling.c.o
 [ 84%] Building C object CMakeFiles/PHY.dir/home/liu/openairinterface5g/openair1/PHY/LTE_TRANSPORT/dci_tools.c.o
+/home/liu/openairinterface5g/openair1/PHY/LTE_TRANSPORT/dci_tools.c: In function ‘check_dci_format2_2a_coherency’:
+/home/liu/openairinterface5g/openair1/PHY/LTE_TRANSPORT/dci_tools.c:4993:14: warning: unused variable ‘ndi2’ [-Wunused-variable]
+     uint8_t  ndi2     = pdci_info_extarcted->ndi2;
+              ^
+/home/liu/openairinterface5g/openair1/PHY/LTE_TRANSPORT/dci_tools.c:4992:14: warning: unused variable ‘ndi1’ [-Wunused-variable]
+     uint8_t  ndi1     = pdci_info_extarcted->ndi1;
+              ^
+/home/liu/openairinterface5g/openair1/PHY/LTE_TRANSPORT/dci_tools.c: In function ‘generate_eNB_dlsch_params_from_dci’:
+/home/liu/openairinterface5g/openair1/PHY/LTE_TRANSPORT/dci_tools.c:2806:11: warning: ‘NPRB’ may be used uninitialized in this function [-Wmaybe-uninitialized]
+     printf("dlsch1 eNB: TBS      %d (NPRB %d)\n",dlsch1_harq->TBS,NPRB);
+           ^
 [ 84%] Building C object CMakeFiles/PHY.dir/home/liu/openairinterface5g/openair1/PHY/LTE_TRANSPORT/uci_tools.c.o
 [ 84%] Building C object CMakeFiles/PHY.dir/home/liu/openairinterface5g/openair1/PHY/LTE_TRANSPORT/lte_mcs.c.o
 [ 84%] Building C object CMakeFiles/PHY.dir/home/liu/openairinterface5g/openair1/PHY/LTE_TRANSPORT/pbch.c.o

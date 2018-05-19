@@ -249,11 +249,11 @@ int pdcp_fifo_flush_sdus(const protocol_ctxt_t* const  ctxt_pP)
           nas_nlh_tx->nlmsg_len += pdcp_output_sdu_bytes_to_write;
           VCD_SIGNAL_DUMPER_DUMP_VARIABLE_BY_NAME( VCD_SIGNAL_DUMPER_VARIABLES_UE_PDCP_FLUSH_SIZE, pdcp_output_sdu_bytes_to_write);
           VCD_SIGNAL_DUMPER_DUMP_FUNCTION_BY_NAME( VCD_SIGNAL_DUMPER_FUNCTIONS_PDCP_FIFO_FLUSH_BUFFER, 1 );
-		  printf("[pdcp_fifo_flush_sdus]send to pdcp netlink\n");
+		 /* printf("[pdcp_fifo_flush_sdus]send to pdcp netlink\n");
 		  for(int q=0;q<pdcp_output_sdu_bytes_to_write;q++){
 				  printf("%x ",sdu_p->data[sizeof (pdcp_data_ind_header_t)+q]);
 		  }
-		  printf("\n");
+		  printf("\n");*/
 		  ret = sendmsg(nas_sock_fd,&nas_msg_tx,0);
           VCD_SIGNAL_DUMPER_DUMP_FUNCTION_BY_NAME( VCD_SIGNAL_DUMPER_FUNCTIONS_PDCP_FIFO_FLUSH_BUFFER, 0 );
           VCD_SIGNAL_DUMPER_DUMP_VARIABLE_BY_NAME( VCD_SIGNAL_DUMPER_VARIABLES_UE_PDCP_FLUSH_ERR, ret );

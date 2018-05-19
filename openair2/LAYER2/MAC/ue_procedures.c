@@ -248,7 +248,7 @@ uint32_t ue_get_SR(module_id_t module_idP,int CC_id,frame_t frameP,uint8_t eNB_i
   int MGRP       = 0; // measurement gap repetition period in ms
   int gapOffset  = -1;
   int T          = 0;
-
+  printf("[ue_get_SR]zh enter\n");
   DevCheck(module_idP < (int)NB_UE_INST, module_idP, NB_UE_INST, 0);
 
   if (CC_id>0) {
