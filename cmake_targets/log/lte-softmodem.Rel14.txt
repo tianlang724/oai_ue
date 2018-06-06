@@ -118,17 +118,6 @@ Scanning dependencies of target PHY
 [ 84%] Building C object CMakeFiles/PHY.dir/home/liu/openairinterface5g/openair1/PHY/LTE_TRANSPORT/dlsch_decoding.c.o
 [ 84%] Building C object CMakeFiles/PHY.dir/home/liu/openairinterface5g/openair1/PHY/LTE_TRANSPORT/dlsch_scrambling.c.o
 [ 84%] Building C object CMakeFiles/PHY.dir/home/liu/openairinterface5g/openair1/PHY/LTE_TRANSPORT/dci_tools.c.o
-/home/liu/openairinterface5g/openair1/PHY/LTE_TRANSPORT/dci_tools.c: In function ‘check_dci_format2_2a_coherency’:
-/home/liu/openairinterface5g/openair1/PHY/LTE_TRANSPORT/dci_tools.c:4993:14: warning: unused variable ‘ndi2’ [-Wunused-variable]
-     uint8_t  ndi2     = pdci_info_extarcted->ndi2;
-              ^
-/home/liu/openairinterface5g/openair1/PHY/LTE_TRANSPORT/dci_tools.c:4992:14: warning: unused variable ‘ndi1’ [-Wunused-variable]
-     uint8_t  ndi1     = pdci_info_extarcted->ndi1;
-              ^
-/home/liu/openairinterface5g/openair1/PHY/LTE_TRANSPORT/dci_tools.c: In function ‘generate_eNB_dlsch_params_from_dci’:
-/home/liu/openairinterface5g/openair1/PHY/LTE_TRANSPORT/dci_tools.c:2806:11: warning: ‘NPRB’ may be used uninitialized in this function [-Wmaybe-uninitialized]
-     printf("dlsch1 eNB: TBS      %d (NPRB %d)\n",dlsch1_harq->TBS,NPRB);
-           ^
 [ 84%] Building C object CMakeFiles/PHY.dir/home/liu/openairinterface5g/openair1/PHY/LTE_TRANSPORT/uci_tools.c.o
 [ 84%] Building C object CMakeFiles/PHY.dir/home/liu/openairinterface5g/openair1/PHY/LTE_TRANSPORT/lte_mcs.c.o
 [ 84%] Building C object CMakeFiles/PHY.dir/home/liu/openairinterface5g/openair1/PHY/LTE_TRANSPORT/pbch.c.o

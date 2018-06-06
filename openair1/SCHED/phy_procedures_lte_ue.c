@@ -3152,7 +3152,7 @@ int ue_pdcch_procedures_zh(uint8_t eNB_id,PHY_VARS_UE *ue,UE_rxtx_proc_t *proc,u
 		if ((ue->UE_mode[eNB_id]>PRACH) &&
 							(ntohs(pdcchc[i].RNTI) == ue->pdcch_vars[subframe_rx & 0x1][eNB_id]->crnti) &&
 								(pdcchc[i].PdcchFormat!= format0)) {
-				 printf("[ue_pdcch_procedures_zh] zh ra crnti\n");
+				 printf("[ue_pdcch_procedures_zh] zh generate_ue_dlsch_params_from_dci\n");
 				 fflush(stdout);
 
 	    	//uint8_t dci_pdu[8];
@@ -3250,7 +3250,7 @@ int ue_pdcch_procedures_zh(uint8_t eNB_id,PHY_VARS_UE *ue,UE_rxtx_proc_t *proc,u
 	}else if( (ntohs(pdcchc[i].RNTI) == ue->pdcch_vars[subframe_rx & 0x1][eNB_id]->crnti)
 					&&(pdcchc[i].PdcchFormat  == format0)){
                  ue->ulsch_no_allocation_counter[eNB_id] = 0;
-				 printf("[ue_pdcch_procedures_zh] ra crnti\n");
+				 printf("[ue_pdcch_procedures_zh] generate_ue_ulsch_params_from_dci\n");
 				       if ((ue->UE_mode[eNB_id] > PRACH) &&
 							(generate_ue_ulsch_params_from_dci((void *)&dci_pdu,
 							              ue->pdcch_vars[subframe_rx & 0x1][eNB_id]->crnti,

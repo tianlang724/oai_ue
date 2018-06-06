@@ -43,7 +43,7 @@
 #include "LAYER2/MAC/extern.h"
 #include "LAYER2/MAC/defs.h"
 
-#define DEBUG_DCI
+//#define DEBUG_DCI
 
 uint32_t localRIV2alloc_LUT6[32];
 uint32_t distRIV2alloc_even_LUT6[32];
@@ -6386,7 +6386,7 @@ int generate_ue_dlsch_params_from_dci(int frame,
     }
 
 
-#ifdef DEBUG_DCI
+//#ifdef DEBUG_DCI
 
     if (dlsch[0] && (dlsch[0]->rnti != 0xffff)) {
       printf("dci_format:%d Abssubframe: %d.%d \n",dci_format,frame%1024,subframe);
@@ -6403,7 +6403,7 @@ int generate_ue_dlsch_params_from_dci(int frame,
       printf("PDSCH dlsch0 UE: mcs      %d\n",dlsch0_harq->mcs);
       printf("PDSCH dlsch0 UE: pwr_off  %d\n",dlsch0_harq->dl_power_off);
     }
-#endif
+//#endif
 
   #if T_TRACER
     if( (dlsch[0]->rnti != si_rnti) && (dlsch[0]->rnti != ra_rnti) && (dlsch[0]->rnti != p_rnti))
@@ -8099,7 +8099,7 @@ int generate_ue_ulsch_params_from_dci(void *dci_pdu,
 
   // ulsch->n_DMRS2 = ((DCI0_5MHz_TDD_1_6_t *)dci_pdu)->cshift;
 
-#ifdef DEBUG_DCI
+//#ifdef DEBUG_DCI
 
     printf("Format 0 DCI : ulsch (ue): AbsSubframe %d.%d\n",proc->frame_rx%1024,subframe);
     printf("Format 0 DCI : ulsch (ue): NBRB        %d\n",ulsch->harq_processes[harq_pid]->nb_rb);
@@ -8121,9 +8121,10 @@ int generate_ue_ulsch_params_from_dci(void *dci_pdu,
     printf("Format 0 DCI :ulsch (ue): Nsymb_pusch   %d\n",ulsch->Nsymb_pusch);
     printf("Format 0 DCI :ulsch (ue): cshift        %d\n",ulsch->harq_processes[harq_pid]->n_DMRS2);
     printf("Format 0 DCI :ulsch (ue): phich status  %d\n",ulsch->harq_processes[harq_pid]->status);
-#else
-    UNUSED_VARIABLE(dai);
-#endif
+//#else
+//
+//    UNUSED_VARIABLE(dai);
+//#endif
     return(0);
   } else {
     LOG_E(PHY,"frame %d, subframe %d: FATAL ERROR, generate_ue_ulsch_params_from_dci, Illegal dci_format %d\n",
